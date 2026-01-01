@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Verification - The Anomaly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Google Font Lucu (Fredoka) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* --- STYLE BLUE SOFT --- */
+        body {
+            background: linear-gradient(to bottom, #e3f2fd, #bbdefb); /* Gradasi Biru Soft */
+            font-family: 'Fredoka', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- Animasi Bintang (Twinkling Stars) --- */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: twinkle infinite ease-in-out;
+            box-shadow: 0 0 10px #fff;
+        }
+        @keyframes twinkle {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.5); opacity: 0.3; }
+        }
+
+        /* --- Text Melayang --- */
+        .floating-message {
+            position: absolute;
+            top: 5%;
+            left: 0; right: 0;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #1976d2; /* Biru agak gelap */
+            padding: 0 20px;
+            text-shadow: 1px 1px 0px #fff;
+            animation: floatText 4s infinite ease-in-out;
+            z-index: 0;
+            pointer-events: none;
+        }
+        @keyframes floatText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- Card Utama --- */
+        .card-custom {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            border: 3px solid #90caf9; /* Border Biru Soft */
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.3);
+            max-width: 550px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        .text-blue-dark { color: #1565c0; }
+        .text-blue-soft { color: #42a5f5; }
+
+        .form-control, .form-select {
+            border-radius: 15px;
+            border: 2px solid #90caf9;
+            color: #1e88e5;
+            text-align: center;
+        }
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 10px rgba(33, 150, 243, 0.2);
+            border-color: #2196f3;
+        }
+
+        .btn-blue {
+            background-color: #64b5f6;
+            color: white;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            border: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(100, 181, 246, 0.4);
+        }
+        .btn-blue:hover {
+            background-color: #42a5f5;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- DEKORASI BACKGROUND (BINTANG) -->
+    <!-- Posisi random dan ukuran random -->
+    <div class="star" style="top: 10%; left: 20%; width: 5px; height: 5px; animation-duration: 2s;"></div>
+    <div class="star" style="top: 30%; left: 80%; width: 8px; height: 8px; animation-duration: 3s;"></div>
+    <div class="star" style="top: 60%; left: 10%; width: 4px; height: 4px; animation-duration: 4s;"></div>
+    <div class="star" style="top: 80%; left: 70%; width: 6px; height: 6px; animation-duration: 2.5s;"></div>
+    <div class="star" style="top: 15%; left: 90%; width: 5px; height: 5px; animation-duration: 3.5s;"></div>
+    <div class="star" style="top: 50%; left: 50%; width: 7px; height: 7px; animation-duration: 3s;"></div>
+    <div class="star" style="top: 20%; left: 40%; width: 4px; height: 4px; animation-duration: 5s;"></div>
+
+    <!-- TEXT BACKGROUND (SESUAI REQUEST) -->
+    <div class="floating-message">
+        ciee ciee uda di page selanjutnya aja nii, tapi masi ada lagii,<br>
+        kamu harus isi tanggal lahir "aku" dlu yaa,<br>
+        ehh "aku" yg dimaksud siapa yaa? clue nya gantengg HAHAHAAA
+    </div>
+
+    <!-- CARD UTAMA -->
+    <div class="card card-custom p-4 p-md-5 text-center mt-5">
+        <!-- Judul Utama -->
+        <h5 class="text-blue-dark mb-3 fw-bold" style="line-height: 1.6;">
+            nahh sebelum lanjut, kamu harus konfirmasi tanggal lahir si anomali "aku" dulu yaa *biar kamu ga lupa hehehee,<br>
+            <span style="font-size: 0.9rem; font-weight: normal; color: #42a5f5;">
+                sama kya sebelumnya kalo kamu salah ngisi tanggal lahir si "aku" ini nanti kamu gabakal bisa masuk huhu:(
+            </span>
+        </h5>
+
+        <!-- Sub Judul -->
+        <p class="text-blue-soft mb-4">isi disini yaa sayangkuu</p>
+
+        <!-- Form Input -->
+        <form th:action="@{/check-gate2}" method="post">
+            <div class="d-flex gap-2 mb-4">
+                <!-- HARI (Tanpa Clue) -->
+                <input type="number" name="day" class="form-control py-2" placeholder="Hari" required>
+                
+                <!-- BULAN -->
+                <select name="month" class="form-select py-2" required>
+                    <option value="">Bulan</option>
+                    <option value="Januari">Januari</option>
+                    <option value="Februari">Februari</option>
+                    <option value="Maret">Maret</option>
+                    <option value="April">April</option>
+                    <option value="Mei">Mei</option>
+                    <option value="Juni">Juni</option>
+                    <option value="Juli">Juli</option>
+                    <option value="Agustus">Agustus</option>
+                    <option value="September">September</option>
+                    <option value="Oktober">Oktober</option>
+                    <option value="November">November</option>
+                    <option value="Desember">Desember</option>
+                </select>
+                
+                <!-- TAHUN (Tanpa Clue) -->
+                <input type="number" name="year" class="form-control py-2" placeholder="Tahun" required>
+            </div>
+
+            <button type="submit" class="btn btn-blue w-100 py-3 fw-bold">gasken ke album</button>
+        </form>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCRIPT POP UP (SWEET ALERT) -->
+    <!-- ============================================ -->
+    
+    <!-- 1. JIKA ERROR -->
+    <script th:if="${error}">
+        Swal.fire({
+            icon: 'error',
+            title: 'hayoyoo salah dongg',
+            text: "yahh masa kamu lupa sii huhuu sedihnyaa:' (padahal aku tau kamu sengajain salah hahahaa) isi lagi yaa sayangg",
+            confirmButtonColor: '#64b5f6',
+            confirmButtonText: 'okaayy',
+            background: '#e3f2fd',
+            color: '#1565c0'
+        });
+    </script>
+
+    <!-- 2. JIKA SUKSES -->
+    <script th:if="${success}">
+        Swal.fire({
+            icon: 'success',
+            title: 'yeayy, nicee bangett sayangg mmuuaahhh',
+            text: 'siap siap ke galeri cantik kamu yaa hihii',
+            showConfirmButton: false,
+            timer: 4000, 
+            background: '#e3f2fd',
+            color: '#1565c0',
+            backdrop: `
+                rgba(187, 222, 251, 0.4)
+                url("https://media.tenor.com/On7kvXhzml4AAAAi/loading-heart.gif")
+                center top
+                no-repeat
+            `
+        }).then(() => {
+            // Pindah ke Gallery
+            window.location.href = '/gallery';
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

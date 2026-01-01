@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome My Intan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Google Font Lucu (Fredoka) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- SweetAlert2 (Untuk Animasi Pop Up Cantik) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        /* --- STYLE PINK SOFT & LUCU --- */
+        body {
+            background-color: #ffe6fa; /* Pink sangat muda */
+            font-family: 'Fredoka', sans-serif; /* Font bulat lucu */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Biar animasi background ga bikin scroll */
+            position: relative;
+        }
+
+        /* --- Background Dekorasi (Love Berterbangan) --- */
+        .bg-love {
+            position: absolute;
+            color: #ffb7d5;
+            opacity: 0.5;
+            animation: floatLove 6s infinite ease-in-out;
+            z-index: -1;
+        }
+        @keyframes floatLove {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- Text Melayang di Background --- */
+        .floating-message {
+            position: absolute;
+            top: 5%;
+            left: 0; 
+            right: 0;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #ff85b3;
+            padding: 0 20px;
+            text-shadow: 2px 2px 0px #fff;
+            animation: bounceText 3s infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        @keyframes bounceText {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- Card Utama --- */
+        .card-custom {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 25px;
+            border: 3px solid #ffd1e8;
+            box-shadow: 0 10px 30px rgba(255, 182, 193, 0.4);
+            max-width: 500px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        .text-pink-dark { color: #ff5c8d; }
+        .text-pink-soft { color: #ff85b3; }
+
+        .form-control, .form-select {
+            border-radius: 15px;
+            border: 2px solid #ffd1e8;
+            color: #ff5c8d;
+            text-align: center;
+        }
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 10px rgba(255, 92, 141, 0.2);
+            border-color: #ff5c8d;
+        }
+
+        .btn-love {
+            background-color: #ff85b3;
+            color: white;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            border: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 133, 179, 0.4);
+        }
+        .btn-love:hover {
+            background-color: #ff5c8d;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- DEKORASI BACKGROUND (LOVE) -->
+    <!-- Kita buat banyak love dengan posisi random pakai style inline -->
+    <div class="bg-love" style="left: 10%; font-size: 30px; animation-duration: 7s;">❤</div>
+    <div class="bg-love" style="left: 30%; font-size: 50px; animation-duration: 9s; animation-delay: 2s;">❤</div>
+    <div class="bg-love" style="left: 70%; font-size: 40px; animation-duration: 6s; animation-delay: 1s;">💕</div>
+    <div class="bg-love" style="left: 90%; font-size: 60px; animation-duration: 8s; animation-delay: 3s;">💖</div>
+    <div class="bg-love" style="left: 50%; font-size: 25px; animation-duration: 10s;">💗</div>
+
+    <!-- TEXT BACKGROUND -->
+    <div class="floating-message">
+        alooww intann cantikk, welcome to your beautiful virtual album,<br>
+        where your memories shine hihii ✨
+    </div>
+
+    <!-- CARD UTAMA -->
+    <div class="card card-custom p-4 p-md-5 text-center">
+        <!-- Judul Utama -->
+        <h4 class="text-pink-dark mb-3 fw-bold" style="line-height: 1.5;">
+            sebelum masuk, kamu harus konfirmasi tanggal lahir kamu dulu yaa,<br>
+            <span style="font-size: 0.9rem; font-weight: normal; color: #fa7ea8;">
+                oiya ada catatan ni kalo kamu salah ngisi tanggal lahir kamu nanti kamu gabakal bisa masuk loo
+            </span>
+        </h4>
+
+        <!-- Sub Judul -->
+        <p class="text-pink-soft mb-4">isi disini yaa cantikku</p>
+
+        <!-- Form Input -->
+        <form th:action="@{/check-gate1}" method="post">
+            <div class="d-flex gap-2 mb-4">
+                <!-- HARI (Tanpa Clue) -->
+                <input type="number" name="day" class="form-control py-2" placeholder="Hari" required>
+                
+                <!-- BULAN -->
+                <select name="month" class="form-select py-2" required>
+                    <option value="">Bulan</option>
+                    <option value="Januari">Januari</option>
+                    <option value="Februari">Februari</option>
+                    <option value="Maret">Maret</option>
+                    <option value="April">April</option>
+                    <option value="Mei">Mei</option>
+                    <option value="Juni">Juni</option>
+                    <option value="Juli">Juli</option>
+                    <option value="Agustus">Agustus</option>
+                    <option value="September">September</option>
+                    <option value="Oktober">Oktober</option>
+                    <option value="November">November</option>
+                    <option value="Desember">Desember</option>
+                </select>
+                
+                <!-- TAHUN (Tanpa Clue) -->
+                <input type="number" name="year" class="form-control py-2" placeholder="Tahun" required>
+            </div>
+
+            <button type="submit" class="btn btn-love w-100 py-3 fw-bold">cuss lanjutt</button>
+        </form>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SCRIPT POP UP (SWEET ALERT) -->
+    <!-- ============================================ -->
+    
+    <!-- 1. JIKA ERROR (Salah Tanggal) -->
+    <script th:if="${error}">
+        Swal.fire({
+            icon: 'error',
+            title: 'aduhh salah ayy',
+            text: 'iss tanggal lahir kamu bukan itu, isi lagi yaa sayangg',
+            confirmButtonColor: '#ff85b3',
+            confirmButtonText: 'okaayy',
+            background: '#fff0f6',
+            color: '#ff5c8d'
+        });
+    </script>
+
+    <!-- 2. JIKA SUKSES (Tanggal Benar -> Animasi -> Pindah) -->
+    <script th:if="${success}">
+        Swal.fire({
+            icon: 'success',
+            title: 'yeayy, nicee sayaangg mmuuaahh',
+            text: 'siap siap masuk ke page selanjutnya yaa',
+            showConfirmButton: false,
+            timer: 4000, // Muncul selama 4 detik
+            background: '#fff0f6',
+            color: '#ff5c8d',
+            backdrop: `
+                rgba(255,195,217,0.4)
+                url("https://media.tenor.com/GfSX-u7V94cAAAAi/cute-spin.gif")
+                center top
+                no-repeat
+            `
+        }).then(() => {
+            // Setelah animasi selesai, pindah ke Gate 2
+            window.location.href = '/gate2';
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
